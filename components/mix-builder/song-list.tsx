@@ -81,15 +81,15 @@ function SortableItem({
         </span>
       </div>
 
-      <div className="flex-1 min-w-0">
+      <div className="flex-1 min-w-0 overflow-hidden">
         <p className="font-medium text-white truncate text-base">
           {song.file.name.replace(/\.[^/.]+$/, "")}
         </p>
         <div className="flex items-center gap-2 mt-1">
-          <span className="text-xs px-2 py-0.5 rounded bg-white/5 text-gray-400 border border-white/5">
+          <span className="text-xs px-2 py-0.5 rounded bg-white/5 text-gray-400 border border-white/5 whitespace-nowrap">
             {(song.file.size / 1024 / 1024).toFixed(2)} MB
           </span>
-          <span className="text-xs text-gray-500 uppercase">
+          <span className="text-xs text-gray-500 uppercase whitespace-nowrap">
             {song.file.type.split("/")[1] || "MP3"}
           </span>
         </div>

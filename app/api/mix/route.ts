@@ -14,6 +14,10 @@ async function saveFile(file: File, dir: string): Promise<string> {
     return filePath;
 }
 
+// Configure FFmpeg path
+const FFMPEG_PATH = process.env.FFMPEG_PATH || "ffmpeg";
+ffmpeg.setFfmpegPath(FFMPEG_PATH);
+
 export async function POST(request: NextRequest) {
     const tempDir = path.join(os.tmpdir(), `automix-${uuidv4()}`);
 
@@ -40,43 +44,59 @@ export async function POST(request: NextRequest) {
         const outputPath = path.join(tempDir, "output.mp3");
 
         // Build FFmpeg command
-        await new Promise<void>((resolve, reject) => {
-            let command = ffmpeg();
-
-            // Add inputs
-            filePaths.forEach((p) => {
-                command = command.input(p);
-            });
-
-            // Build complex filter
-            // Logic:
-            // [0][1]acrossfade=d=5:c1=tri:c2=tri[a1]
-            // [a1][2]acrossfade=d=5:c1=tri:c2=tri[a2]
-            // ...
-
-            const filterComplex: string[] = [];
-            let lastLabel = "0";
-
-            for (let i = 1; i < filePaths.length; i++) {
-                const input1 = i === 1 ? "0" : `a${i - 1}`;
-                const input2 = `${i}`;
-                const output = i === filePaths.length - 1 ? "out" : `a${i}`;
-
-                filterComplex.push(
-                    `[${input1}][${input2}]acrossfade=d=${crossfade}:c1=tri:c2=tri[${output}]`
+        await new Promise<void>(async (resolve, reject) => {
+            try {
+                // Check durations to prevent crossfade errors
+                const durations = await Promise.all(
+                    filePaths.map((p) => new Promise<number>((res, rej) => {
+                        ffmpeg.ffprobe(p, (err, metadata) => {
+                            if (err) rej(err);
+                            else res(metadata.format.duration || 0);
+                        });
+                    }))
                 );
-            }
 
-            command
-                .complexFilter(filterComplex.join(";"))
-                .map("[out]")
-                .output(outputPath)
-                .on("end", () => resolve())
-                .on("error", (err) => {
-                    console.error("FFmpeg error:", err);
-                    reject(err);
-                })
-                .run();
+                // Find the shortest file duration
+                const minDuration = Math.min(...durations);
+
+                // Safety check: crossfade cannot be longer than the shortest file
+                // We use minDuration / 2 as a safe upper bound for middle tracks that need to fade both ends
+                // But strictly for acrossfade, it just needs to be < duration.
+                // To be safe and avoid "duration < crossfade" errors, we clamp it.
+                const safeCrossfade = Math.min(crossfade, Math.floor(minDuration * 0.9)); // 90% of shortest duration max
+
+                let command = ffmpeg();
+
+                // Add inputs
+                filePaths.forEach((p) => {
+                    command = command.input(p);
+                });
+
+                const filterComplex: string[] = [];
+
+                for (let i = 1; i < filePaths.length; i++) {
+                    const input1 = i === 1 ? "0" : `a${i - 1}`;
+                    const input2 = `${i}`;
+                    const output = i === filePaths.length - 1 ? "out" : `a${i}`;
+
+                    filterComplex.push(
+                        `[${input1}][${input2}]acrossfade=d=${safeCrossfade}:c1=tri:c2=tri[${output}]`
+                    );
+                }
+
+                command
+                    .complexFilter(filterComplex.join(";"))
+                    .map("[out]")
+                    .output(outputPath)
+                    .on("end", () => resolve())
+                    .on("error", (err) => {
+                        console.error("FFmpeg processing error:", err);
+                        reject(err);
+                    })
+                    .run();
+            } catch (e) {
+                reject(e);
+            }
         });
 
         // Read output file

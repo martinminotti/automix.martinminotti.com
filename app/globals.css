@@ -76,3 +76,23 @@ body {
 ::-webkit-scrollbar-thumb:hover {
   background: #52525b;
 }
+
+/* =========================================
+   CUSTOM MOBILE STYLES
+   Inserisci qui le tue regole per mobile
+   ========================================= */
+
+@media (max-width: 768px) {
+  /* Esempio: riduci font size su mobile */
+  /* .custom-mobile-class { font-size: 14px; } */
+
+  /* Puoi sovrascrivere stili globali qui */
+
+  .p-1{
+    max-width: 380px!important;
+  }
+  body {
+    /* background-image: none; */
+    /* Esempio: rimuovi sfondo su mobile se pesante */
+  }
+}

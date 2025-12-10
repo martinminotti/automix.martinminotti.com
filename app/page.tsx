@@ -78,13 +78,13 @@ export default function Home() {
   };
 
   return (
-    <main className="min-h-screen w-full flex flex-col items-center py-20 px-4 md:px-8 lg:px-16 max-w-[1400px] mx-auto">
+    <main className="min-h-screen w-full flex flex-col items-center py-10 px-4 md:py-20 md:px-8 lg:px-16 max-w-[1400px] mx-auto overflow-x-hidden">
       {/* Header Section */}
       <motion.div 
         initial={{ opacity: 0, y: 30 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.6, ease: "easeOut" }}
-        className="text-center space-y-6 mb-20"
+        className="text-center space-y-6 mb-12 md:mb-20"
       >
         <div className="relative inline-flex items-center justify-center mb-2">
           <div className="absolute -inset-4 bg-primary/20 rounded-full blur-xl animate-pulse" />
@@ -93,19 +93,19 @@ export default function Home() {
           </div>
         </div>
         
-        <div className="space-y-4">
-          <h1 className="text-5xl md:text-7xl font-bold tracking-tight text-white">
+        <div className="space-y-4 px-4">
+          <h1 className="text-4xl md:text-7xl font-bold tracking-tight text-white">
             Auto<span className="text-primary">Mix</span>
           </h1>
-          <p className="text-muted-foreground text-lg md:text-xl max-w-2xl mx-auto font-light leading-relaxed">
-            Create seamless, professional mixes in seconds.
+          <p className="text-muted-foreground text-base md:text-xl max-w-2xl mx-auto font-light leading-relaxed">
+            Crea mix professionali e fluidi in pochi secondi.
             <br className="hidden md:block" />
-            Drag, drop, and let our AI engine handle the transitions.
+            Trascina, rilascia e lascia che la nostra AI gestisca le transizioni.
           </p>
         </div>
       </motion.div>
 
-      <div className="w-full grid gap-12">
+      <div className="w-full grid gap-6 md:gap-12">
         {/* Upload Section */}
         <motion.section
           initial={{ opacity: 0, y: 20 }}
@@ -114,10 +114,10 @@ export default function Home() {
           className="w-full max-w-4xl mx-auto"
         >
           <div className="glass rounded-3xl p-1">
-            <div className="bg-card/50 rounded-[22px] p-8 md:p-10 border border-white/5">
-              <div className="flex items-center gap-4 mb-8">
-                <div className="flex items-center justify-center w-8 h-8 rounded-full bg-primary/20 text-primary font-bold text-sm">1</div>
-                <h2 className="text-2xl font-semibold text-white">Upload Tracks</h2>
+            <div className="bg-card/50 rounded-[22px] p-4 md:p-10 border border-white/5">
+              <div className="flex items-center gap-3 md:gap-4 mb-4 md:mb-8">
+                <div className="flex items-center justify-center w-8 h-8 rounded-full bg-primary/20 text-primary font-bold text-sm shrink-0">1</div>
+                <h2 className="text-lg md:text-2xl font-semibold text-white">Carica Tracce</h2>
               </div>
               <Dropzone onFilesDropped={handleFilesDropped} />
             </div>
@@ -130,15 +130,15 @@ export default function Home() {
               initial={{ opacity: 0, height: 0 }}
               animate={{ opacity: 1, height: "auto" }}
               exit={{ opacity: 0, height: 0 }}
-              className="grid lg:grid-cols-12 gap-8 w-full"
+              className="grid lg:grid-cols-12 gap-6 md:gap-8 w-full"
             >
               {/* Playlist Section */}
               <div className="lg:col-span-8 space-y-4">
                 <div className="glass rounded-3xl p-1 h-full">
-                  <div className="bg-card/50 rounded-[22px] p-8 md:p-10 border border-white/5 h-full">
-                    <div className="flex items-center gap-4 mb-8">
-                      <div className="flex items-center justify-center w-8 h-8 rounded-full bg-primary/20 text-primary font-bold text-sm">2</div>
-                      <h2 className="text-2xl font-semibold text-white">Arrange Playlist</h2>
+                  <div className="bg-card/50 rounded-[22px] p-4 md:p-10 border border-white/5 h-full">
+                    <div className="flex items-center gap-3 md:gap-4 mb-4 md:mb-8">
+                      <div className="flex items-center justify-center w-8 h-8 rounded-full bg-primary/20 text-primary font-bold text-sm shrink-0">2</div>
+                      <h2 className="text-lg md:text-2xl font-semibold text-white">Organizza Playlist</h2>
                     </div>
                     <SongList
                       songs={songs}
@@ -152,16 +152,16 @@ export default function Home() {
               {/* Settings & Actions Section */}
               <div className="lg:col-span-4 space-y-6">
                 <div className="glass rounded-3xl p-1">
-                  <div className="bg-card/50 rounded-[22px] p-8 border border-white/5">
-                    <div className="flex items-center gap-4 mb-8">
-                      <div className="flex items-center justify-center w-8 h-8 rounded-full bg-primary/20 text-primary font-bold text-sm">3</div>
-                      <h2 className="text-2xl font-semibold text-white">Mix Settings</h2>
+                  <div className="bg-card/50 rounded-[22px] p-4 md:p-8 border border-white/5">
+                    <div className="flex items-center gap-3 md:gap-4 mb-4 md:mb-8">
+                      <div className="flex items-center justify-center w-8 h-8 rounded-full bg-primary/20 text-primary font-bold text-sm shrink-0">3</div>
+                      <h2 className="text-lg md:text-2xl font-semibold text-white">Impostazioni Mix</h2>
                     </div>
                     
                     <div className="space-y-8">
                       <div className="space-y-6">
                         <div className="flex justify-between items-end">
-                          <label className="text-sm font-medium text-gray-300">Crossfade Duration</label>
+                          <label className="text-sm font-medium text-gray-300">Durata Crossfade</label>
                           <span className="px-3 py-1 rounded-md bg-white/5 border border-white/10 text-sm font-mono text-primary">
                             {crossfade}s
                           </span>
@@ -175,25 +175,25 @@ export default function Home() {
                           className="py-4"
                         />
                         <div className="flex justify-between text-xs text-muted-foreground font-medium uppercase tracking-wider">
-                          <span>Cut (0s)</span>
-                          <span>Smooth (15s)</span>
+                          <span>Taglio Netto (0s)</span>
+                          <span>Fluido (15s)</span>
                         </div>
                       </div>
 
                       <div className="p-4 rounded-xl bg-primary/5 border border-primary/10">
                         <div className="flex items-center gap-2 text-sm text-primary mb-2 font-medium">
                           <Sparkles className="w-4 h-4" />
-                          <span>Smart Transition</span>
+                          <span>Transizione Smart</span>
                         </div>
                         <p className="text-xs text-muted-foreground leading-relaxed">
-                          Our engine automatically analyzes volume levels to ensure smooth transitions between tracks.
+                          Il nostro motore analizza automaticamente i volumi per garantire transizioni fluide tra i brani.
                         </p>
                       </div>
                     </div>
                   </div>
                 </div>
 
-                <div className="space-y-4 pt-4">
+                <div className="space-y-4 pt-4 pb-10 md:pb-0">
                   <Button
                     size="lg"
                     className="w-full h-16 text-lg bg-white text-black hover:bg-gray-100 hover:scale-[1.02] active:scale-[0.98] transition-all shadow-xl shadow-white/5 font-bold rounded-2xl"
@@ -207,12 +207,12 @@ export default function Home() {
                         className="flex items-center gap-3"
                       >
                         <Loader2 className="h-6 w-6 animate-spin" />
-                        Processing Mix...
+                        Elaborazione...
                       </motion.div>
                     ) : (
                       <div className="flex items-center gap-3">
                         <Wand2 className="h-6 w-6" />
-                        Generate Mix
+                        Genera Mix
                       </div>
                     )}
                   </Button>
@@ -245,11 +245,11 @@ export default function Home() {
                             className="w-full h-16 text-lg bg-gradient-to-r from-emerald-500 to-green-600 text-white hover:from-emerald-400 hover:to-green-500 border-0 shadow-lg shadow-green-500/20 hover:scale-[1.02] active:scale-[0.98] transition-all font-bold rounded-2xl"
                           >
                             <Download className="mr-3 h-6 w-6" />
-                            Download Mix
+                            Scarica Mix
                           </Button>
                         </a>
                         <p className="text-center text-xs text-muted-foreground font-medium animate-pulse">
-                          Ready for the dancefloor! 🕺
+                          Pronto per la pista! 🕺
                         </p>
                       </motion.div>
                     )}

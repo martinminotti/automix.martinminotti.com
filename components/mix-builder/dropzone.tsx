@@ -78,7 +78,7 @@ export function Dropzone({ onFilesDropped }: DropzoneProps) {
       {/* Background Animation */}
       <div className="absolute inset-0 bg-gradient-to-br from-violet-500/5 to-blue-500/5 opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
 
-      <div className="flex flex-col items-center space-y-4 text-center z-10">
+      <div className="flex flex-col items-center space-y-4 text-center z-10 p-4">
         <motion.div
           animate={{
             y: isDragging ? -10 : 0,
@@ -95,16 +95,16 @@ export function Dropzone({ onFilesDropped }: DropzoneProps) {
         
         <div className="space-y-1">
           <p className="text-lg font-medium text-white">
-            {isDragging ? "Drop files now" : "Upload Tracks"}
+            {isDragging ? "Rilascia i file qui" : "Carica le tracce"}
           </p>
-          <p className="text-sm text-gray-400">
-            Drag & drop or click to browse
+          <p className="text-sm text-gray-400 px-4">
+            Trascina qui i file o clicca per sfogliare
           </p>
         </div>
         
         <div className="flex items-center gap-2 text-xs text-gray-500 bg-white/5 px-3 py-1 rounded-full border border-white/5">
           <Music className="w-3 h-3" />
-          <span>MP3, WAV, M4A supported</span>
+          <span>MP3, WAV, M4A supportati</span>
         </div>
       </div>
     </motion.div>
